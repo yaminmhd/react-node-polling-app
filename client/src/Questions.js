@@ -19,10 +19,11 @@ class Questions extends Component {
           }}
         >
           {this.props.questions.map((question, i) => {
+            const colors = ['green', 'teal', 'blue', 'violet', 'grey'];
             return (
               <Card.Group key={i}>
                 <Card
-                  color="teal"
+                  color={colors[i]}
                   onClick={this.askQuestion.bind(this, question)}
                 >
                   <Card.Content>

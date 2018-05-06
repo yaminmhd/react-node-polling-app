@@ -27,7 +27,8 @@ class Join extends Component {
           />
         </FormField>
         <Button primary>Join the session</Button>
-        <Link to="/speaker">Join as the speaker</Link>
+        <Link style={{marginLeft: '5px'}} to="/speaker">Join as the speaker</Link>
+        <Link style={{marginLeft: '5px'}} to="/board">View board</Link>
       </Form>
     );
   }

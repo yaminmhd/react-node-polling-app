@@ -7,20 +7,30 @@ const Header = props => (
     <Grid.Row>
       <Grid.Column width={14}>
         <Label color="yellow" size="large">
-          <Icon name="pin"/>
-          Joined Session
+          <Icon name="pin" />
+          Joined Session:
           <Label.Detail>
             {props.title ? props.title : "No session available"}
           </Label.Detail>
         </Label>
-
         <Label color="yellow" size="large">
           <Icon name="user" />
-          Speaker
+          Speaker:
           <Label.Detail>
             {props.speaker ? props.speaker : "Speaker hasn't entered session"}
           </Label.Detail>
         </Label>
+        {props.member.type === "member" ? (
+          <Label color="green" size="large">
+            <Icon name="user" />
+            Logged In:
+            <Label.Detail>
+              {props.member !== "" ? props.member.name : ""}
+            </Label.Detail>
+          </Label>
+        ) : (
+          ""
+        )}
       </Grid.Column>
       <Grid.Column textAlign="right" width={2}>
         <div>

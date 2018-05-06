@@ -19,7 +19,8 @@ class App extends Component {
       audience: [],
       speaker: "",
       questions: [],
-      currentQuestion: ""
+      currentQuestion: "",
+      results: {}
     };
     this.connect = this.connect.bind(this);
     this.disconnect = this.disconnect.bind(this);
@@ -29,6 +30,7 @@ class App extends Component {
     this.speakerStart = this.speakerStart.bind(this);
     this.updateStateFromServer = this.updateStateFromServer.bind(this);
     this.askQuestion = this.askQuestion.bind(this);
+    this.updateResults = this.updateResults.bind(this);
   }
 
   componentDidMount() {
@@ -42,14 +44,15 @@ class App extends Component {
     this.socket.on("speakerStart", this.speakerStart);
     this.socket.on("endPresentation", this.updateStateFromServer);
     this.socket.on("askQuestion", this.askQuestion);
+    this.socket.on("results", this.updateResults);
   }
 
   connect() {
     const member = sessionStorage.member
       ? JSON.parse(sessionStorage.member)
       : null;
-    if (member && member.type === "audience") {
-      this.emit("join", member);
+    if (member && member.type === "member") {
+      this.emit("memberJoin", member);
     } else if (member && member.type === "speaker") {
       this.emit("speakerStart", {
         name: member.name,
@@ -68,6 +71,7 @@ class App extends Component {
   }
 
   updateStateFromServer(serverState) {
+    console.log(serverState);
     this.setState(serverState);
   }
 
@@ -87,12 +91,20 @@ class App extends Component {
   speakerStart(presentation) {
     if (this.state.member.type === "speaker") {
       sessionStorage.title = presentation.title;
+      this.setState({
+        title: presentation.title,
+        speaker: presentation.speaker
+      });
     }
-    this.setState(presentation);
   }
 
   askQuestion(question) {
+    sessionStorage.answer = "";
     this.setState({ currentQuestion: question });
+  }
+
+  updateResults(data) {
+    this.setState({ results: data });
   }
 
   render() {

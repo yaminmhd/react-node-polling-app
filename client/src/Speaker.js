@@ -21,7 +21,7 @@ class Speaker extends Component {
         success
         onDismiss={this.handleDismiss.bind(this)}
         header="Welcome to your presentation session!"
-        content="Choose from the following questions provided to start polling audience. Check your attendance before starting your polling"
+        content="Choose from the following questions provided to start polling audience."
       />
     ) : null;
     return (

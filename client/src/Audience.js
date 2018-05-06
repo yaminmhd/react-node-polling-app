@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import Display from "./Display";
 import Join from "./Join";
-import { Message } from "semantic-ui-react";
 import AskQn from './AskQn';
 
 class Audience extends Component {
@@ -15,21 +14,19 @@ class Audience extends Component {
   };
 
   render() {
-    const messageVisibility = this.state.visible ? (
-      <Message
-        success
-        onDismiss={this.handleDismiss.bind(this)}
-        header="Welcome!"
-        content="You have joined the session successfully!"
-      />
-    ) : null;
+    // const messageVisibility = this.state.visible ? (
+    //   <Message
+    //     success
+    //     onDismiss={this.handleDismiss.bind(this)}
+    //     header="Welcome!"
+    //     content="You have joined the session successfully!"
+    //   />
+    // ) : null;
 
     return (
       <div>
         <Display if={this.props.status === "connected"}>
           <Display if={this.props.member.name}>
-            {messageVisibility}
-
             <Display if={!this.props.currentQuestion}>
               <h2>Welcome {this.props.member.name}</h2>
               <p>{this.props.audience.length} audience members connected</p>

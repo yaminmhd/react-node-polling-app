@@ -7,8 +7,8 @@ const path = require("path");
 const io = require("socket.io")(); //import and construct the socket
 const questions = require("./seed-questions");
 
-const connections = [];
-const audience = [];
+let connections = [];
+let audience = [];
 let currentQuestion = "";
 let title = "";
 let speaker = {};
@@ -41,7 +41,7 @@ io.on("connection", socket => {
     } else if (socket.id === speaker.id) {
       console.log(`${speaker.name} has left. ${title} is over.`);
       speaker = {};
-      title = "Presentation";
+      title = "";
       io.sockets.emit("endPresentation", { title: title, speaker: "" });
     }
 
@@ -70,10 +70,11 @@ io.on("connection", socket => {
     speaker.name = payload.name;
     speaker.id = socket.id;
     speaker.type = "speaker";
+    title = payload.title;
     socket.emit("memberSuccessfullyJoined", speaker);
     io.sockets.emit("speakerStart", {
-      title: payload.title,
-      speaker: payload.name
+      title: title,
+      speaker: speaker.name
     }); //emit to all connected sockets on updated title and speaker name
     console.log(
       `Presentation Started: \`${payload.title}\` by ${payload.name}`
@@ -82,14 +83,20 @@ io.on("connection", socket => {
 
   socket.on("askQuestion", question => {
     currentQuestion = question;
+    results = { a: 0, b: 0, c: 0, d: 0 };
     io.sockets.emit("askQuestion", currentQuestion);
     console.log(`Question Asked: \`${question.question}\``);
   });
 
   socket.on("incrementResults", chosenAnswer => {
-    console.log(chosenAnswer.choice);
     results[chosenAnswer.choice]++;
+    io.sockets.emit('results', results);
     console.log(results);
+    console.log(
+      `Answer: ${chosenAnswer.choice} - ${
+        chosenAnswer.question[chosenAnswer.choice]
+      }`
+    );
   });
 
   /*
@@ -102,7 +109,8 @@ io.on("connection", socket => {
     audience: audience,
     speaker: speaker.name,
     questions: questions,
-    currentQuestion: currentQuestion
+    currentQuestion: currentQuestion,
+    results: results
   });
 
   connections.push(socket);
