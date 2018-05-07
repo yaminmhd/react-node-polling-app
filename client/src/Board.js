@@ -18,8 +18,7 @@ const barGraphData = results => {
     };
   });
 };
-//<p>{JSON.stringify(props.results)}</p>
-// <h3>{props.currentQuestion.question}</h3>
+
 
 const Board = props => (
   <div style={{ textAlign: "center" }}>
@@ -27,8 +26,8 @@ const Board = props => (
       <h2>{props.currentQuestion.question}</h2>
       <BarChart width={900} height={500} data={barGraphData(props.results)}>
         <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="name" />
-        <YAxis allowDecimals="false" dataKey="" />
+        <XAxis dataKey="name" allowDecimals="false" />
+        <YAxis allowDecimals="false"/>
         <Tooltip />
         <Legend />
         <Bar dataKey="choice" fill="#8884d8" />

@@ -4,7 +4,13 @@
   "scripts": {
     "client": "cd client && yarn start",
     "server": "nodemon server.js",
-    "start": "concurrently --kill-others-on-fail \"yarn server\" \"yarn client\""
+    "start": "concurrently --kill-others-on-fail \"yarn server\" \"yarn client\"",
+    "build": "concurrently \"cd client&&yarn build\"",
+    "heroku-postbuild": "yarn build"
+  },
+  "engines": {
+    "node": "^9.6.0",
+    "yarn": "1.5.1"
   },
   "dependencies": {
     "express": "^4.16.2",
