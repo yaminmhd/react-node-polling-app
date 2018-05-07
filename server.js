@@ -1,6 +1,9 @@
+if (!process.env.NODE_ENV || process.env.NODE_ENV !== "production") {
+  const dotenv = require("dotenv").config();
+}
+
 const express = require("express");
 const app = express();
-
 const _ = require("lodash");
 const path = require("path");
 
@@ -20,11 +23,12 @@ let results = {
 };
 
 const port = process.env.PORT || 3001;
+
+const staticFiles = express.static(path.join(__dirname, "../client/build"));
 // Express only serves static assets in production
 if (process.env.NODE_ENV === "production") {
-  app.use(express.static("client/build"));
+  app.use(staticFiles);
 }
-app.use(express.static(path.join(__dirname, "../client/public")));
 
 io.on("connection", socket => {
   socket.once("disconnect", () => {
@@ -89,7 +93,7 @@ io.on("connection", socket => {
 
   socket.on("incrementResults", chosenAnswer => {
     results[chosenAnswer.choice]++;
-    io.sockets.emit('results', results);
+    io.sockets.emit("results", results);
     console.log(results);
     console.log(
       `Answer: ${chosenAnswer.choice} - ${
