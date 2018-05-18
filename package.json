@@ -3,10 +3,11 @@
   "version": "1.0.0",
   "scripts": {
     "client": "cd client && yarn start",
+    "start-prod": "node server.js",
     "server": "nodemon server.js",
     "dev": "NODE_ENV=local nodemon server.js",
     "start": "concurrently --kill-others-on-fail \"yarn server\" \"yarn client\"",
-    "start:dev:server": "yarn dev",
+    "start:prod:server": "yarn start-prod",
     "build": "concurrently \"cd client&&yarn build\"",
     "heroku-postbuild": "yarn build"
   },
