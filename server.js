@@ -1,5 +1,7 @@
-if (!process.env.NODE_ENV || process.env.NODE_ENV !== "production") {
-  const dotenv = require("dotenv").config();
+const isProduction = process.env.NODE_ENV === "production";
+const isLocal = process.env.NODE_ENV === "local";
+if (isLocal) {
+  require("dotenv").config();
 }
 
 const express = require("express");

@@ -5,8 +5,7 @@
     "client": "cd client && yarn start",
     "server": "nodemon server.js",
     "start": "concurrently --kill-others-on-fail \"yarn server\" \"yarn client\"",
-    "build": "concurrently \"cd client&&yarn build\"",
-    "heroku-postbuild": "yarn build"
+    "heroku-postbuild": "cd client && yarn --production=false && yarn build"
   },
   "engines": {
     "node": "^9.6.0",
