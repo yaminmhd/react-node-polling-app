@@ -4,8 +4,11 @@
   "scripts": {
     "client": "cd client && yarn start",
     "server": "nodemon server.js",
+    "dev": "NODE_ENV=local nodemon server.js",
     "start": "concurrently --kill-others-on-fail \"yarn server\" \"yarn client\"",
-    "heroku-postbuild": "cd client && yarn --production=false && yarn build"
+    "start:dev:server": "yarn dev",
+    "build": "concurrently \"cd client&&yarn build\"",
+    "heroku-postbuild": "yarn build"
   },
   "engines": {
     "node": "^9.6.0",
